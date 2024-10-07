@@ -1,11 +1,22 @@
 import { useState } from 'react'
 import {
   IconAdjustmentsHorizontal,
+  IconMathSymbols,
   IconSortAscendingLetters,
   IconSortDescendingLetters,
 } from '@tabler/icons-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { Layout } from '@/components/custom/layout'
 import { Input } from '@/components/ui/input'
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -92,29 +103,72 @@ export default function Apps() {
                 <SelectItem value="nerwilis">Nerwilis</SelectItem>
               </SelectContent>
             </Select>
+            <Select value={sort} onValueChange={setSort}>
+              <SelectTrigger className="w-16">
+                <SelectValue>
+                  <IconAdjustmentsHorizontal size={18} />
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent align="end">
+                <SelectItem value="ascending">
+                  <div className="flex items-center gap-4">
+                    <IconSortAscendingLetters size={16} />
+                    <span>Ascending</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="descending">
+                  <div className="flex items-center gap-4">
+                    <IconSortDescendingLetters size={16} />
+                    <span>Descending</span>
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <Select value={sort} onValueChange={setSort}>
-            <SelectTrigger className="w-16">
-              <SelectValue>
-                <IconAdjustmentsHorizontal size={18} />
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem value="ascending">
-                <div className="flex items-center gap-4">
-                  <IconSortAscendingLetters size={16} />
-                  <span>Ascending</span>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="flex items-center">
+                <IconMathSymbols size={20} className="mr-2" /> {/* Adjust size as needed */}
+                Tambah Kegiatan
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Tambah Kegiatan</DialogTitle>
+                <DialogDescription>
+                  Mau tambah kegiatan? Cuss coy
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Nama Kegiatan
+                  </Label>
+                  <Input
+                    id="name"
+                    defaultValue="Pedro Duarte"
+                    className="col-span-3"
+                  />
                 </div>
-              </SelectItem>
-              <SelectItem value="descending">
-                <div className="flex items-center gap-4">
-                  <IconSortDescendingLetters size={16} />
-                  <span>Descending</span>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="username" className="text-right">
+                    Username
+                  </Label>
+                  <Input
+                    id="username"
+                    defaultValue="@peduarte"
+                    className="col-span-3"
+                  />
                 </div>
-              </SelectItem>
-            </SelectContent>
-          </Select>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
         </div>
         <Separator className="shadow" />
 

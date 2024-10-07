@@ -5,13 +5,14 @@ import NotFoundError from './pages/errors/not-found-error'
 import MaintenanceError from './pages/errors/maintenance-error'
 import UnauthorisedError from './pages/errors/unauthorised-error.tsx'
 import AppShell from './components/app-shell.tsx'
+import Loading from './components/Loading.tsx'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isSignedIn, isLoaded } = useAuth()
 
   if (!isLoaded) {
-    return <div>Loading...</div>
+    return <Loading />;
   }
 
   if (!isSignedIn) {
