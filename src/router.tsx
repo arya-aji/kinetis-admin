@@ -1,49 +1,39 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { useAuth } from '@clerk/clerk-react'
 import GeneralError from './pages/errors/general-error'
 import NotFoundError from './pages/errors/not-found-error'
 import MaintenanceError from './pages/errors/maintenance-error'
 import UnauthorisedError from './pages/errors/unauthorised-error.tsx'
+import AppShell from './components/app-shell.tsx'
+
+// eslint-disable-next-line react-refresh/only-export-components
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isSignedIn, isLoaded } = useAuth()
+
+  if (!isLoaded) {
+    return <div>Loading...</div>
+  }
+
+  if (!isSignedIn) {
+    return <Navigate to="/welcome" replace />
+  }
+
+  return children
+}
 
 const router = createBrowserRouter([
-  // Auth routes
+  // Welcome route (accessible to all)
   {
-    path: '/sign-in',
+    path: '/welcome',
     lazy: async () => ({
-      Component: (await import('./pages/auth/sign-in')).default,
-    }),
-  },
-  {
-    path: '/sign-in-2',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/sign-in-2')).default,
-    }),
-  },
-  {
-    path: '/sign-up',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/sign-up')).default,
-    }),
-  },
-  {
-    path: '/forgot-password',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/forgot-password')).default,
-    }),
-  },
-  {
-    path: '/otp',
-    lazy: async () => ({
-      Component: (await import('./pages/auth/otp')).default,
+      Component: (await import('./pages/welcome')).default,
     }),
   },
 
-  // Main routes
+  // Main routes (protected)
   {
     path: '/',
-    lazy: async () => {
-      const AppShell = await import('./components/app-shell')
-      return { Component: AppShell.default }
-    },
+    element: <ProtectedRoute><AppShell /></ProtectedRoute>,
     errorElement: <GeneralError />,
     children: [
       {
