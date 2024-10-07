@@ -10,7 +10,7 @@ const Loading: React.FC = () => {
                 className="w-auto h-32 object-contain animate-pulse" // Prevent stretching
             />
             <br /> {/* Line break after the logo */}
-            <span className="text-lg">Loading...</span> {/* Adjust spacing if needed */}
+            <span className="text-lg">Loading....</span> {/* Adjust spacing if needed */}
         </div>
     );
 };
