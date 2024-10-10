@@ -76,7 +76,7 @@ export default function Apps() {
       {/* ===== Content ===== */}
       <Layout.Body className="flex flex-col">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Routine Activities</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Kegiatan Rutin</h1>
           <p className="text-muted-foreground">
             Daftar Kegiatan Statistik di BPS Kota Jakarta Pusat
           </p>
@@ -182,30 +182,38 @@ export default function Apps() {
             {filteredApps.map((app) => (
               <li
                 key={app.name}
-                className="rounded-lg border p-4 hover:shadow-md"
+                className="relative rounded-lg border p-4 hover:shadow-md group"
               >
-                <div className="mb-8 flex items-center justify-between">
-                  <div
-                    className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}
-                  >
-                    {app.logo}
+                {/* Background Image appears on hover with a dark overlay */}
+                <div className="absolute inset-0 bg-[url('/images/eg_susenas1.jpg')] bg-cover bg-center opacity-30 group-hover:opacity-75 transition-opacity duration-300"></div>
+
+                {/* Solid Overlay for Better Contrast */}
+                <div className="absolute inset-0 bg-slate-50 opacity-50 transition-opacity duration-300 rounded-lg"></div>
+
+                {/* Centered Text with Darker Text Color */}
+                <div className="flex flex-col items-center justify-center h-full relative z-10 text-center">
+                  <div className="mb-8 flex items-center justify-between w-full">
+                    <div
+                      className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}
+                    >
+                      {app.logo}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className={`border ${fungsiColors[app.fungsi] || 'border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-950 dark:hover:bg-gray-900'}`}
+                    >
+                      {app.fungsi.charAt(0).toUpperCase() + app.fungsi.slice(1)}
+                    </Button>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className={`border ${fungsiColors[app.fungsi] || 'border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-950 dark:hover:bg-gray-900'}`}
-                  >
-                    {app.fungsi.charAt(0).toUpperCase() + app.fungsi.slice(1)}
-                  </Button>
-                </div>
-                <div>
-                  <h2 className="mb-1 font-semibold">{app.name}</h2>
-                  <p className="line-clamp-2 text-gray-500">{app.desc}</p>
+                  <h2 className="mb-1 font-semibold text-gray-900">{app.name}</h2> {/* Darker title color */}
+                  <p className="line-clamp-2 text-gray-800">{app.desc}</p> {/* Darker description color */}
                 </div>
               </li>
             ))}
           </ul>
         )}
+
       </Layout.Body>
     </Layout>
   );

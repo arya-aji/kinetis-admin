@@ -1,16 +1,13 @@
 import { Layout } from '@/components/custom/layout'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  Card
 } from '@/components/ui/card'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
+// import { RecentSales } from './components/recent-sales'
+// import { Overview } from './components/overview'
 import KinetisLogo from "/images/logo-color.png";
-import eotm from "/images/eotm-iii-2024.png";
 
 export default function Dashboard() {
   return (
@@ -36,18 +33,6 @@ export default function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-5 border-none shadow-none'>
                 <img src={KinetisLogo} alt="Kinetis Logo" className="w-full h-full object-contain" />
-              </Card>
-
-              <Card className='col-span-1 lg:col-span-2'>
-                <CardHeader>
-                  <CardTitle className='text-center'>Employee of the 3rd</CardTitle>
-                  <CardDescription className='text-center'>
-                    <b>Monik Ajeng PDW</b>
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className='space-y-8'>
-                  <img src={eotm} alt="Kinetis Logo" className="w-full h-full object-contain" />
-                </CardContent>
               </Card>
             </div>
           </TabsContent>

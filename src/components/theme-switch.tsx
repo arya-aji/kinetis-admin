@@ -21,7 +21,7 @@ export default function ThemeSwitch() {
     metaThemeColor && metaThemeColor.setAttribute('content', themeColor)
   }, [theme])
 
-  console.log(theme)
+  // console.log(theme)
 
   return (
     <DropdownMenu>

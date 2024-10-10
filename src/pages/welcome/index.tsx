@@ -1,12 +1,11 @@
 import { SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react";
-// import logo from "/public/images/logo-only.png";
 import "@/pages/home.css";
-import KinetisLogo from "/public/images/logo-color.png";
-import BPSLogo from "/public/images/bps.png";
-import fotoPesawat from "/public/images/pesawat_edit.jpg";
-import fotoMonas from "/public/images/monas_edit.jpg";
-import fotoGedung from "/public/images/gedung_edit.jpg";
-import fotoKereta from "/public/images/kereta_edit.jpg";
+import KinetisLogo from "/images/logo-color.png";
+import BPSLogo from "/images/bps.png";
+import fotoPesawat from "/images/pesawat_edit.jpg";
+import fotoMonas from "/images/monas_edit.jpg";
+import fotoGedung from "/images/gedung_edit.jpg";
+import fotoKereta from "/images/kereta_edit.jpg";
 
 export default function Home() {
   return (

@@ -7,7 +7,7 @@ import {
   IconHexagonNumber5,
   IconHexagonNumber6,
   IconLayoutDashboard,
-  IconSettings,
+  IconUsers,
   IconUserShield,
 } from '@tabler/icons-react'
 
@@ -80,9 +80,9 @@ export const sidelinks: SideLink[] = [
     ],
   },
   {
-    title: 'Settings',
+    title: 'Pemilihan Umum',
     label: '',
-    href: '/settings',
-    icon: <IconSettings size={18} />,
+    href: '/voting',
+    icon: <IconUsers size={18} />,
   },
 ]
