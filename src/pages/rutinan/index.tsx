@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import {
-  IconAdjustmentsHorizontal,
-  IconMathSymbols,
-  IconSortAscendingLetters,
-  IconSortDescendingLetters,
+  IconMathSymbols
 } from '@tabler/icons-react'
 import {
   Dialog,
@@ -29,6 +26,22 @@ import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
 import { Button } from '@/components/custom/button'
 import { apps } from './data'
+import * as React from "react";
+import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, } from "@/components/ui/drawer";
+import { Button as ButtonDrawer } from "@/components/ui/button";
+
+type surveiData = {
+  name: string;
+  logo: JSX.Element;
+  completed: boolean;
+  desc: string;
+  periode: string;
+  fungsi: 'umum' | 'ipds' | 'sosial' | 'distribusi' | 'produksi' | 'nerwilis';
+  kategori: string;
+  tim: string;
+  link: string;
+};
+
 
 const appText = new Map<string, string>([
   ['all', 'Semua Kegiatan'],
@@ -50,16 +63,16 @@ const fungsiColors: Record<string, string> = {
 }
 
 export default function Apps() {
-  const [sort, setSort] = useState('ascending');
   const [appType, setAppType] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [open, setOpen] = React.useState(false);
+  const [selectedApp, setSelectedApp] = useState<surveiData | null>(null);
 
+  const handleCardClick = (app: surveiData) => {
+    setSelectedApp(app);
+    setOpen(true);
+  };
   const filteredApps = apps
-    .sort((a, b) =>
-      sort === 'ascending'
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
-    )
     .filter((app) => (appType === 'all' ? true : app.fungsi === appType))
     .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -74,26 +87,20 @@ export default function Apps() {
       </Layout.Header>
 
       {/* ===== Content ===== */}
-      <Layout.Body className="flex flex-col">
-        <div>
+      <Layout.Body className="flex flex-col ">
+        <div className='mb-4 '>
           <h1 className="text-2xl font-bold tracking-tight">Kegiatan Rutin</h1>
           <p className="text-muted-foreground">
             Daftar Kegiatan Statistik di BPS Kota Jakarta Pusat
           </p>
         </div>
         <div className="my-4 flex items-end justify-between sm:my-0 sm:items-center">
-          <div className="flex flex-col gap-4 sm:my-4 sm:flex-row">
-            <Input
-              placeholder="Filter kegiatan..."
-              className="h-9 w-40 lg:w-[250px]"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="flex flex-col gap-4 sm:flex-row sm:flex-grow">
             <Select value={appType} onValueChange={setAppType}>
-              <SelectTrigger className="w-36">
+              <SelectTrigger>
                 <SelectValue>{appText.get(appType)}</SelectValue>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='w-1/4'>
                 <SelectItem value="all">Semua Fungsi</SelectItem>
                 <SelectItem value="umum">Umum</SelectItem>
                 <SelectItem value="ipds">IPDS</SelectItem>
@@ -103,33 +110,14 @@ export default function Apps() {
                 <SelectItem value="nerwilis">Nerwilis</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={sort} onValueChange={setSort}>
-              <SelectTrigger className="w-16">
-                <SelectValue>
-                  <IconAdjustmentsHorizontal size={18} />
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent align="end">
-                <SelectItem value="ascending">
-                  <div className="flex items-center gap-4">
-                    <IconSortAscendingLetters size={16} />
-                    <span>Ascending</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="descending">
-                  <div className="flex items-center gap-4">
-                    <IconSortDescendingLetters size={16} />
-                    <span>Descending</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
           </div>
+
+          <div className="w-1/4" />
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="flex items-center">
-                <IconMathSymbols size={20} className="mr-2" /> {/* Adjust size as needed */}
+              <Button variant="outline" className="flex items-center ml-4">
+                <IconMathSymbols size={20} className="mr-2" />
                 Tambah Kegiatan
               </Button>
             </DialogTrigger>
@@ -168,11 +156,16 @@ export default function Apps() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-
         </div>
-        <Separator className="shadow" />
+        <div className='mt-4'>
+          <Input
+            placeholder="Filter kegiatan..."
+            className="h-9 w-full lg:w-full" // Ensure the input uses full width
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          /></div>
+        <Separator className="shadow mt-4" />
 
-        {/* Conditional rendering based on filteredApps */}
         {filteredApps.length === 0 ? (
           <div className="flex items-center justify-center h-64 border border-dashed rounded-lg">
             <p className="text-gray-500">Tidak ada kegiatan ditemukan</p>
@@ -182,40 +175,66 @@ export default function Apps() {
             {filteredApps.map((app) => (
               <li
                 key={app.name}
-                className="relative rounded-lg border p-4 hover:shadow-md group"
+                className="relative rounded-lg border p-4 hover:shadow-md group cursor-pointer overflow-clip"
+                onClick={() => handleCardClick(app as surveiData)}
               >
-                {/* Background Image appears on hover with a dark overlay */}
-                <div className="absolute inset-0 bg-[url('/images/eg_susenas1.jpg')] bg-cover bg-center opacity-30 group-hover:opacity-75 transition-opacity duration-300"></div>
+                {/* Background Image with Gradient Overlay */}
+                <div className="absolute inset-0 bg-[url('/images/eg_susenas1.jpg')] bg-cover bg-center rounded-lg">
+                  <div className="absolute inset-0 bg-gradient-to-t from-transparent to-slate-700/80"></div>
+                </div>
 
                 {/* Solid Overlay for Better Contrast */}
                 <div className="absolute inset-0 bg-slate-50 opacity-50 transition-opacity duration-300 rounded-lg"></div>
 
-                {/* Centered Text with Darker Text Color */}
-                <div className="flex flex-col items-center justify-center h-full relative z-10 text-center">
-                  <div className="mb-8 flex items-center justify-between w-full">
-                    <div
-                      className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}
-                    >
-                      {app.logo}
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className={`border ${fungsiColors[app.fungsi] || 'border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-950 dark:hover:bg-gray-900'}`}
-                    >
-                      {app.fungsi.charAt(0).toUpperCase() + app.fungsi.slice(1)}
-                    </Button>
+                {/* Button Positioned in Top Right */}
+                <div className="absolute top-2 right-2 z-20">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={`border ${fungsiColors[app.fungsi] || 'border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-slate-100 dark:bg-slate-400 dark:hover:bg-slate-700'}`}
+                  >
+                    {app.fungsi.charAt(0).toUpperCase() + app.fungsi.slice(1)}
+                  </Button>
+                </div>
+
+                {/* Adjusted Content Padding */}
+                <div className="flex flex-col justify-start h-full relative z-10 text-center pt-8 px-2"> {/* Added top padding */}
+                  <div className="flex flex-col items-center">
+                    <h2 className="mb-2 font-semibold text-gray-900">{app.name}</h2> {/* Title */}
+                    <p className="line-clamp-2 text-gray-800">{app.desc}</p> {/* Description */}
                   </div>
-                  <h2 className="mb-1 font-semibold text-gray-900">{app.name}</h2> {/* Darker title color */}
-                  <p className="line-clamp-2 text-gray-800">{app.desc}</p> {/* Darker description color */}
                 </div>
               </li>
             ))}
           </ul>
         )}
 
+        {/* Drawer Component */}
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerContent>
+            <div className="flex p-4">
+              {/* Image on the left taking 1/4 of the screen width */}
+              <img
+                src="/images/eg_susenas1.jpg" // Use the placeholder image
+                alt={selectedApp ? selectedApp.name : "Placeholder"} // Alt text for accessibility
+                className="w-1/4 h-auto rounded mr-4" // Set width to 1/4 and height to auto for aspect ratio
+              />
+              <div className="flex-1">
+                <DrawerHeader className="text-left"> {/* Align text to the left */}
+                  <DrawerTitle>{selectedApp ? selectedApp.name : ""}</DrawerTitle>
+                  <DrawerDescription>{selectedApp ? selectedApp.desc : ""}</DrawerDescription>
+                </DrawerHeader>
+              </div>
+            </div>
+            <DrawerFooter>
+              <ButtonDrawer onClick={() => setOpen(false)}>Close</ButtonDrawer>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+
       </Layout.Body>
-    </Layout>
+    </Layout >
   );
 }
 

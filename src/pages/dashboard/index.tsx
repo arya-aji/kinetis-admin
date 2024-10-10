@@ -28,7 +28,7 @@ export default function Dashboard() {
         <Tabs
           orientation='vertical'
           defaultValue='overview'
-          className='space-y-4'
+          className='space-y-0'
         >
           <div className='w-full overflow-x-auto pb-2'>
           </div>
