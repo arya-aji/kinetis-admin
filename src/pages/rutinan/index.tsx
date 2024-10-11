@@ -21,6 +21,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Separator } from '@/components/ui/separator'
 import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
@@ -212,17 +223,73 @@ export default function Apps() {
         {/* Drawer Component */}
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerContent>
-            <div className="flex p-4">
-              {/* Image on the left taking 1/4 of the screen width */}
+            <div className="flex p-4 items-start">
+              {/* Image on the left taking 1/4 of the screen width and cropped */}
               <img
                 src="/images/eg_susenas1.jpg" // Use the placeholder image
                 alt={selectedApp ? selectedApp.name : "Placeholder"} // Alt text for accessibility
-                className="w-1/4 h-auto rounded mr-4" // Set width to 1/4 and height to auto for aspect ratio
+                className="w-1/4 h-auto rounded mr-4 object-cover" // Set width to 1/4, height auto, and use object-cover to crop
               />
               <div className="flex-1">
                 <DrawerHeader className="text-left"> {/* Align text to the left */}
                   <DrawerTitle>{selectedApp ? selectedApp.name : ""}</DrawerTitle>
-                  <DrawerDescription>{selectedApp ? selectedApp.desc : ""}</DrawerDescription>
+                  <DrawerDescription className="hidden md:block">
+                    {selectedApp ? selectedApp.desc : ""}
+                  </DrawerDescription>
+                  {/* Additional details below the description */}
+                  {selectedApp && (
+                    <div className="mt-2">
+                      <table className="w-full border-none">
+                        <tbody>
+                          <tr>
+                            <td className="font-bold border-none">Fungsi</td>
+                            <td className="text-center border-none">:</td>
+                            <td className="border-none">
+                              {selectedApp.fungsi.charAt(0).toUpperCase() + selectedApp.fungsi.slice(1)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="font-bold border-none">Periode</td>
+                            <td className="text-center border-none">:</td>
+                            <td className="border-none">{selectedApp.periode}</td>
+                          </tr>
+                          <tr>
+                            <td className="font-bold border-none">PIC</td>
+                            <td className="text-center border-none">:</td>
+                            <td className="border-none">{selectedApp.tim}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
+                      >
+                        Bukti Fisik
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Menuju ke Bukti Fisik?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Ini akan memindahkan anda ke data bukti fisik kegiatan survei, apakah anda yakin?
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => {
+                            window.open(selectedApp ? selectedApp.link : "drive.google.com", '_blank');
+                          }}
+                        >
+                          Lanjut
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </DrawerHeader>
               </div>
             </div>
@@ -231,7 +298,6 @@ export default function Apps() {
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
-
 
       </Layout.Body>
     </Layout >
