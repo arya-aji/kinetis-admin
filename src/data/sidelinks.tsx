@@ -85,4 +85,10 @@ export const sidelinks: SideLink[] = [
     href: '/voting',
     icon: <IconUsers size={18} />,
   },
+  {
+    title: 'Data Pegawai',
+    label: '',
+    href: '/pegawai',
+    icon: <IconUsers size={18} />,
+  },
 ]

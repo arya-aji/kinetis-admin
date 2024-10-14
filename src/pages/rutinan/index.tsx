@@ -45,11 +45,11 @@ type surveiData = {
   name: string;
   logo: JSX.Element;
   completed: boolean;
-  desc: string;
+  deskripsi: string;
   periode: string;
   fungsi: 'umum' | 'ipds' | 'sosial' | 'distribusi' | 'produksi' | 'nerwilis';
   kategori: string;
-  tim: string;
+  pic: string;
   link: string;
 };
 
@@ -212,7 +212,7 @@ export default function Apps() {
                 <div className="flex flex-col justify-start h-full relative z-10 text-center pt-8 px-2"> {/* Added top padding */}
                   <div className="flex flex-col items-center">
                     <h2 className="mb-2 font-semibold text-gray-900">{app.name}</h2> {/* Title */}
-                    <p className="line-clamp-2 text-gray-800">{app.desc}</p> {/* Description */}
+                    <p className="line-clamp-2 text-gray-800">{app.deskripsi}</p> {/* Description */}
                   </div>
                 </div>
               </li>
@@ -234,7 +234,7 @@ export default function Apps() {
                 <DrawerHeader className="text-left"> {/* Align text to the left */}
                   <DrawerTitle>{selectedApp ? selectedApp.name : ""}</DrawerTitle>
                   <DrawerDescription className="hidden md:block">
-                    {selectedApp ? selectedApp.desc : ""}
+                    {selectedApp ? selectedApp.deskripsi : ""}
                   </DrawerDescription>
                   {/* Additional details below the description */}
                   {selectedApp && (
@@ -256,7 +256,7 @@ export default function Apps() {
                           <tr>
                             <td className="font-bold border-none">PIC</td>
                             <td className="text-center border-none">:</td>
-                            <td className="border-none">{selectedApp.tim}</td>
+                            <td className="border-none">{selectedApp.pic}</td>
                           </tr>
                         </tbody>
                       </table>

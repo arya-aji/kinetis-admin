@@ -86,6 +86,12 @@ const router = createBrowserRouter([
         }),
       },
       {
+        path: 'pegawai',
+        lazy: async () => ({
+          Component: (await import('@/pages/pegawai')).default,
+        }),
+      },
+      {
         path: 'voting',
         lazy: async () => ({
           Component: (await import('@/pages/voting')).default,
