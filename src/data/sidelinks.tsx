@@ -1,5 +1,6 @@
 import {
   IconApps,
+  IconGhost2,
   IconHexagonNumber1,
   IconHexagonNumber2,
   IconHexagonNumber3,
@@ -86,9 +87,9 @@ export const sidelinks: SideLink[] = [
     icon: <IconUsers size={18} />,
   },
   {
-    title: 'Data Pegawai',
+    title: 'Daftar Penunggu Kantor',
     label: '',
     href: '/pegawai',
-    icon: <IconUsers size={18} />,
+    icon: <IconGhost2 size={18} />,
   },
 ]
