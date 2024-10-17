@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   IconMathSymbols
 } from '@tabler/icons-react'
@@ -36,10 +36,12 @@ import { Separator } from '@/components/ui/separator'
 import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
 import { Button } from '@/components/custom/button'
-import { apps } from './data'
-import * as React from "react";
+// import { apps } from './data'
+// import * as React from "react";
 import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, } from "@/components/ui/drawer";
 import { Button as ButtonDrawer } from "@/components/ui/button";
+import { createClient } from '@supabase/supabase-js'
+import { Loader2 } from "lucide-react"
 
 type surveiData = {
   name: string;
@@ -52,6 +54,17 @@ type surveiData = {
   pic: string;
   link: string;
 };
+
+// Initialize Supabase client
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase environment variables')
+  throw new Error('Missing Supabase environment variables')
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 
 const appText = new Map<string, string>([
@@ -76,16 +89,71 @@ const fungsiColors: Record<string, string> = {
 export default function Apps() {
   const [appType, setAppType] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState<surveiData | null>(null);
+  const [apps, setApps] = useState<surveiData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
+
+  useEffect(() => {
+    fetchRutinanData();
+  }, []);
+
+  async function fetchRutinanData() {
+    setIsLoading(true);
+    const startTime = Date.now();
+
+    try {
+      const { data, error } = await supabase
+        .from('rutinan')
+        .select('*')
+
+      if (error) {
+        console.error('Error fetching rutinan data:', error);
+      } else {
+        setApps(data as surveiData[]);
+      }
+    } finally {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 1000 - elapsedTime);
+
+      // Ensure the loading state lasts at least 1 second
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remainingTime);
+    }
+  }
 
   const handleCardClick = (app: surveiData) => {
     setSelectedApp(app);
     setOpen(true);
   };
+
   const filteredApps = apps
     .filter((app) => (appType === 'all' ? true : app.fungsi === appType))
     .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  const handleFilterChange = (newAppType: string) => {
+    setIsFilterLoading(true);
+    setAppType(newAppType);
+    
+    setTimeout(() => {
+      setIsFilterLoading(false);
+    }, 500);
+  };
+
+  if (isLoading) {
+    return (
+      <Layout fixed>
+        <Layout.Body className="flex items-center justify-center h-screen">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto" />
+            <p className="mt-2">Loading data...</p>
+          </div>
+        </Layout.Body>
+      </Layout>
+    );
+  }
 
   return (
     <Layout fixed>
@@ -107,7 +175,7 @@ export default function Apps() {
         </div>
         <div className="my-4 flex items-end justify-between sm:my-0 sm:items-center">
           <div className="flex flex-col gap-4 sm:flex-row sm:flex-grow">
-            <Select value={appType} onValueChange={setAppType}>
+            <Select value={appType} onValueChange={handleFilterChange}>
               <SelectTrigger>
                 <SelectValue>{appText.get(appType)}</SelectValue>
               </SelectTrigger>
@@ -168,7 +236,7 @@ export default function Apps() {
             </DialogContent>
           </Dialog>
         </div>
-        <div className='mt-4'>
+        <div className='mt-4' id="cardData">
           <Input
             placeholder="Filter kegiatan..."
             className="h-9 w-full lg:w-full" // Ensure the input uses full width
@@ -177,7 +245,11 @@ export default function Apps() {
           /></div>
         <Separator className="shadow mt-4" />
 
-        {filteredApps.length === 0 ? (
+        {isFilterLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        ) : filteredApps.length === 0 ? (
           <div className="flex items-center justify-center h-64 border border-dashed rounded-lg">
             <p className="text-gray-500">Tidak ada kegiatan ditemukan</p>
           </div>
@@ -303,4 +375,3 @@ export default function Apps() {
     </Layout >
   );
 }
-
