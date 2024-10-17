@@ -4,7 +4,7 @@ import { Layout } from './custom/layout'
 import { Button } from './custom/button'
 import Nav from './nav'
 import { cn } from '@/lib/utils'
-import { sidelinks } from '@/data/sidelinks'
+import { sidelinks, SidebarBottomContent } from '@/data/sidelinks'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean
@@ -101,6 +101,10 @@ export default function Sidebar({
             className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`}
           />
         </Button>
+
+        {/* Add the bottom content */}
+        <SidebarBottomContent isCollapsed={isCollapsed} />
+
       </Layout>
     </aside>
   )

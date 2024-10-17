@@ -11,6 +11,8 @@ import {
   IconUsers,
   IconUserShield,
 } from '@tabler/icons-react'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { UserNav } from '@/components/user-nav'
 
 export interface NavLink {
   title: string
@@ -93,3 +95,14 @@ export const sidelinks: SideLink[] = [
     icon: <IconGhost2 size={18} />,
   },
 ]
+
+// Add a new export for the bottom content
+export const SidebarBottomContent: React.FC<{ isCollapsed: boolean }> = ({ isCollapsed }) => (
+  <div className="mt-auto p-4">
+    <div className="flex items-center justify-between">
+      {!isCollapsed && <ThemeSwitch />}
+      <UserNav />
+    </div>
+  </div>
+)
+

@@ -7,22 +7,12 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
 import KinetisLogo from "/images/logo-color.png";
 import eotm from "/images/eotm-iii-2024.png";
 
 export default function Dashboard() {
   return (
     <Layout>
-      {/* ===== Top Heading ===== */}
-      <Layout.Header>
-        <div className='ml-auto flex items-center space-x-4'>
-          <ThemeSwitch />
-          <UserNav />
-        </div>
-      </Layout.Header>
-
       {/* ===== Main ===== */}
       <Layout.Body>
         <Tabs

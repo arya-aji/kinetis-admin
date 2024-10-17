@@ -3,8 +3,6 @@ import { useUser, SignIn } from '@clerk/clerk-react';
 import { createClient } from '@supabase/supabase-js';
 import { Layout } from '@/components/custom/layout'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -73,14 +71,6 @@ export default function VotingPage() {
 
   return (
     <Layout>
-      {/* ===== Top Heading ===== */}
-      <Layout.Header>
-        <div className='ml-auto flex items-center space-x-4 mb-0'>
-          <ThemeSwitch />
-          <UserNav />
-        </div>
-      </Layout.Header>
-
       {/* ===== Main ===== */}
       <Layout.Body >
         <Tabs

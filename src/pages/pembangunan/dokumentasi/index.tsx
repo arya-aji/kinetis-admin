@@ -14,8 +14,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
 import { Button } from '@/components/custom/button'
 import { apps } from './data'
 
@@ -47,14 +45,6 @@ export default function Apps() {
 
   return (
     <Layout fixed>
-      {/* ===== Top Heading ===== */}
-      <Layout.Header>
-        <div className='ml-auto flex items-center space-x-4'>
-          <ThemeSwitch />
-          <UserNav />
-        </div>
-      </Layout.Header>
-
       {/* ===== Content ===== */}
       <Layout.Body className='flex flex-col'>
         <div>

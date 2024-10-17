@@ -33,8 +33,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Separator } from '@/components/ui/separator'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
 import { Button } from '@/components/custom/button'
 // import { apps } from './data'
 // import * as React from "react";
@@ -115,7 +113,7 @@ export default function Apps() {
       }
     } finally {
       const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 1000 - elapsedTime);
+      const remainingTime = Math.max(0, 200 - elapsedTime);
 
       // Ensure the loading state lasts at least 1 second
       setTimeout(() => {
@@ -139,7 +137,7 @@ export default function Apps() {
     
     setTimeout(() => {
       setIsFilterLoading(false);
-    }, 500);
+    }, 300);
   };
 
   if (isLoading) {
@@ -157,14 +155,6 @@ export default function Apps() {
 
   return (
     <Layout fixed>
-      {/* ===== Top Heading ===== */}
-      <Layout.Header>
-        <div className="ml-auto flex items-center space-x-4">
-          <ThemeSwitch />
-          <UserNav />
-        </div>
-      </Layout.Header>
-
       {/* ===== Content ===== */}
       <Layout.Body className="flex flex-col ">
         <div className='mb-4 '>

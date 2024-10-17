@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Layout } from '@/components/custom/layout'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
@@ -84,13 +82,6 @@ const Pegawai: React.FC = () => {
 
   return (
     <Layout>
-      <Layout.Header>
-        <div className='ml-auto flex items-center space-x-4 mb-0'>
-          <ThemeSwitch />
-          <UserNav />
-        </div>
-      </Layout.Header>
-
       <Layout.Body>
         <Tabs
           orientation='vertical'
