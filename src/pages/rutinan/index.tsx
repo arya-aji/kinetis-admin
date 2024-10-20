@@ -1,19 +1,6 @@
 import { useState, useEffect } from 'react'
-import {
-  IconMathSymbols
-} from '@tabler/icons-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { Layout } from '@/components/custom/layout'
 import { Input } from '@/components/ui/input'
-import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -40,6 +27,7 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, D
 import { Button as ButtonDrawer } from "@/components/ui/button";
 import { createClient } from '@supabase/supabase-js'
 import { Loader2 } from "lucide-react"
+import TambahKegiatan from './component/tambahKegiatan'
 
 type surveiData = {
   name: string;
@@ -134,7 +122,7 @@ export default function Apps() {
   const handleFilterChange = (newAppType: string) => {
     setIsFilterLoading(true);
     setAppType(newAppType);
-    
+
     setTimeout(() => {
       setIsFilterLoading(false);
     }, 300);
@@ -183,48 +171,10 @@ export default function Apps() {
 
           <div className="w-1/4" />
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="flex items-center ml-4">
-                <IconMathSymbols size={20} className="mr-2" />
-                Tambah Kegiatan
-              </Button>
-            </DialogTrigger>
+          <TambahKegiatan setApps={function (): void {
+                  throw new Error('Function not implemented.')
+                } } />
 
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Tambah Kegiatan</DialogTitle>
-                <DialogDescription>
-                  Mau tambah kegiatan? Cuss coy
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Nama Kegiatan
-                  </Label>
-                  <Input
-                    id="name"
-                    defaultValue="Pedro Duarte"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Username
-                  </Label>
-                  <Input
-                    id="username"
-                    defaultValue="@peduarte"
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
         <div className='mt-4' id="cardData">
           <Input
